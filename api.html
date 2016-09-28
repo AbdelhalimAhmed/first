@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+
+<h1>Customers</h1>
+<div id="id01"></div>
+
+<script>
+var xmlhttp = new XMLHttpRequest();
+var url = "http://www.actionpal.org.uk/ar/mobile_webservice/content.php?catid=15&row=10";
+
+xmlhttp.onreadystatechange=function() {
+    if (this.readyState == 4 && this.status == 200) {
+        var arr = JSON.parse(this.responseText).data;
+    var i;
+    var out = arr[2].introtext_without_html_tags;
+console.log(arr);   
+    document.getElementById("id01").innerHTML = out;
+    }
+}
+xmlhttp.open("GET", url, true);
+xmlhttp.send();
+
+function myFunction(response) {
+    
+}
+</script>
+
+</body>
+</html>
+
