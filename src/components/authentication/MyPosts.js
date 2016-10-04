@@ -7,18 +7,13 @@ var {
     Image,
     TouchableHighlight,
     StyleSheet,
-    DrawerLayoutAndroid,
-    ActivityIndicator,
-    TouchableHighlight,
-    ToolbarAndroid,
     ListView,
     TouchableOpacity,
     
 } = React1;
 
 var Button = require('../common/button');
-var DrawerView = require('../common/DrawerView');
-var ToolBar = require('../authentication/ToolBar');
+
 
 
 module.exports = React.createClass({
@@ -36,16 +31,13 @@ module.exports = React.createClass({
         }
     },
     componentDidMount: function () {
-       this.fetchData(this.props.data3);
+       this.fetchData(this.props.data);
     },
 
-    fetchData: function (postIdNavigator) {
-        //rowApi = rowApi +10; 
-        //alert(postIdNavigator);
-        var API_URL = 'http://jsonplaceholder.typicode.com/comments?postId='+postIdNavigator;
+    fetchData: function (userIdNavigator) {
+        var API_URL = 'http://jsonplaceholder.typicode.com/posts?userId='+userIdNavigator;
         fetch(API_URL).then((response) => response.json()).then((responseData) => {
             var organizations = responseData,
-                //alert(organizations[0].name);
                  length = organizations.length,
                  dataBlob = [],
                  name,
@@ -53,8 +45,6 @@ module.exports = React.createClass({
                  j;
 
                 for (var i = 0; i < length ;  i++) {
-                    //sectionIDs[i] = organizations[i].userId;
-                    //rows[i] = organizations[i].userId;
                     dataBlob[i] = organizations[i];
                  
                  }
@@ -63,7 +53,6 @@ module.exports = React.createClass({
                         loaded     : true
                     });
                 
-                //alert(dataBlob[0]);
         }).done(); 
               
     },
@@ -71,42 +60,21 @@ module.exports = React.createClass({
         return (
             <TouchableOpacity >
                     <View style = {styles.rowContainer1}>
-                        <Text  style={styles.section}>{rowData.name}</Text>
+                        <Text  style={styles.section}>{rowData.title}</Text>
                         <Text  style={styles.textContainer}>{rowData.body}</Text>
                      </View>
                 </TouchableOpacity>
         ); /////
                        
     },
-    onActionSelected: function(){
-        this.refs['DRAWER_REF'].openDrawer();
-    },
 
     render: function() {
         //alert(this.props.data3);
-        // const Header = () => (
-            
-        //     <ToolBar onPress = {() => this.onActionSelected()}/>    
-           
-        // )
         return (
-        <DrawerLayoutAndroid
-                  drawerWidth={300}
-                  drawerLockMode = {'unlocked'}
-                  drawerPosition={DrawerLayoutAndroid.positions.Right}
-                  renderNavigationView={() => this.NavigationView(this.props.data4, this.props.data5) }
-                  onDrawerOpen = {this.onOpen}
-                  ref={'DRAWER_REF'}>
             
             <View style = {styles.container}>
-            <ToolBar onPress = {() => this.onActionSelected()}/>
-                <View style={styles.section}>
-                    <Text >{this.props.data}</Text>
-                </View>
-                <Text style = {styles.textContainer} >{this.props.data1}</Text>
-                <Text style = {styles.textContainer1}>{this.props.data2}</Text>
-                 
-                <Button text={'the comments>'}/>
+
+                <Button text={'Your Posts'}/>
             <View style={styles.container}>
                 <ListView
                     dataSource = {this.state.dataSource}
@@ -115,17 +83,13 @@ module.exports = React.createClass({
                 />
                 
             </View>
-            <Button text={'Back To ListNews...'} onPress = {this.onPopPress}/> 
+            <Button text={'Back To ListPosts...'} onPress = {this.onPopPress}/> 
              </View>
            
-        </DrawerLayoutAndroid>
+
         );
         ////
     },
-
-     NavigationView: function(myName, myId){
-       return (<DrawerView text={'Welcome ' + myName} id={myId} navigator={this.props.navigator}/>);
-    },///
 
     onPopPress: function() {
     
@@ -138,6 +102,10 @@ module.exports = React.createClass({
 var styles = StyleSheet.create({
     container: {
         flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 10,
+        backgroundColor: 'white'
     },
   section: { 
         backgroundColor: '#2196F3',
