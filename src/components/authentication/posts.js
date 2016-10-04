@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
+import DrawerLayout from 'react-native-drawer-layout';
+
+var DrawerLayoutAndroid = require('react-native-drawer-layout');
 var React1 = require('react-native');
+
 var { 
   AppRegistry,
     StyleSheet,
@@ -8,6 +12,7 @@ var {
     ListView,
     TouchableOpacity,
     AlertIndicator,
+    DrawerLayoutAndroid,
     ActivityIndicator,
     TouchableHighlight,
     ToolbarAndroid,
@@ -18,7 +23,9 @@ var {
 
 
 var Button = require('../common/button');
+var DrawerView = require('../common/DrawerView');
 var Details = require('../authentication/details');
+var ToolBar = require('../authentication/ToolBar');
 
 var test =-1;
 var rows = [];
@@ -115,14 +122,31 @@ module.exports = React.createClass({
             </View>
         );
     },
+    
+    onActionSelected: function() {
+       this.refs['DRAWER_REF'].openDrawer();
+  
+    },
 
     renderListView: function () {
-        return (
-            <View style={styles.container}>
+       
+        const Header = () => (
             
-                <View style={styles.header}>
-                    <Text style={styles.headerText}>Welcome {this.props.data1}</Text>
-                </View>
+            <ToolBar onPress = {() => this.onActionSelected()}/>    
+           
+        )
+        return (
+            <DrawerLayoutAndroid
+                  drawerWidth={300}
+                  drawerLockMode = {'unlocked'}
+                  drawerPosition={DrawerLayoutAndroid.positions.Right}
+                  renderNavigationView={() => this.NavigationView(this.props.data1, this.props.data2) }
+                  onDrawerOpen = {this.onOpen}
+                  ref={'DRAWER_REF'}>
+
+
+            <View style={styles.container}>
+                 <Header/>
                 <ListView
                     dataSource = {this.state.dataSource}
                     style      = {styles.listview}
@@ -130,10 +154,19 @@ module.exports = React.createClass({
                 />
                 
             </View>
-
+            </DrawerLayoutAndroid>
         );///
     },
 
+    NavigationView: function(myName, myId){
+       return (<DrawerView text={'Welcome ' + myName} id={myId} navigator={this.props.navigator}/>);
+    },///
+
+    onOpen: function(){
+        //alert('bla la bla')
+    },
+
+    
     
     renderRow: function(rowData) {
         test +=1;
@@ -144,7 +177,7 @@ module.exports = React.createClass({
                     <View style = {styles.rowContainer1}>
                         <Text  style={styles.section}>{this.state.nameView[test]}</Text>
                         <Text  style={styles.textContainer}>{rowData.title}</Text>
-                        <Button text={'Comments'} onPress = {() => this.onSignPress(names, rowData.title, rowData.body, rowData.id)}/>
+                        <Button text={'Comments'} onPress = {() => this.onSignPress(names, rowData.title, rowData.body, rowData.id, this.props.data1, this.props.data2)}/>
                         <Text style = {styles.rowLine}>{ '_____________________________________________'} </Text>
                      </View>
                 
@@ -152,13 +185,15 @@ module.exports = React.createClass({
                        
     },
 
-    onSignPress: function(rowData,rowData1,rowData2,rowData3) {
+    onSignPress: function(rowData,rowData1,rowData2,rowData3,myName,myId) {
         this.props.navigator.push({
             component: 'details',
             data: rowData,
             data1: rowData1,
             data2: rowData2,
-            data3: rowData3
+            data3: rowData3,
+            data4: myName,
+            data5: myId
         }); 
         
 
@@ -222,19 +257,7 @@ var styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-    header: {
-        height: 50,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'black',
-        flexDirection: 'column',
-        paddingTop: 15
-    },
-    headerText: {
-        fontWeight: 'bold',
-        fontSize: 25,
-        color: 'white'
-    },
+    
     text: {
         color: 'white',
         paddingHorizontal: 8,

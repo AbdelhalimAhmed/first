@@ -1,4 +1,7 @@
 import React, { Component, } from 'react';
+import DrawerLayout from 'react-native-drawer-layout';
+
+var DrawerLayoutAndroid = require('react-native-drawer-layout');
 var React1 = require('react-native');
 var {
     View,
@@ -31,22 +34,13 @@ module.exports = React.createClass({
             nameIds: getNameIds
 		};
 	},
-    
-
   
     render: function() {
-        return (   
-              
-            <View style = {styles.container1}>
+        
+        
+        return (  
 
-                <ToolbarAndroid 
-                    style={styles.header}
-                    title='AwesomeApp'
-                    actions={[{title: 'Settings', icon: require('../authentication/icon_settings.png'), show: 'always', contentInsetEnd: 'always'}]}
-                    onActionSelected={this.onActionSelected}
-                    />
-                
-
+            <View style = {styles.container1}>            
                 <View style = {styles.container}>
                     <Text>  Sign In </Text>
                     <Text style = {styles.label}>Username:</Text>
@@ -67,28 +61,25 @@ module.exports = React.createClass({
                     <Button text={'Sign In'} onPress = { () => this.onSignupPress(this.state.username1,this.state.password)}/>
                     <Button text={'I need an account...'} onPress={this.onPress}/>
                 </View>
-        </View>
+                
+                  
+                
+            </View>
+            
         );
         ////sdasd<Button text={'Sign In'} onPress = { () => {this.onSignupPress(this.state.username1,this.state.password),this.onDataPress(this.state.username1)}}/>            
     },
 
-    showToolBar: function(){
-
-    },
-
-    onActionSelected: function(position) {
-        alert('Hello');
-  
-    },
 
     onSignupPress: function(value,value1) {
         var API_URL = 'http://jsonplaceholder.typicode.com/users?username='+value+'&id='+value1;
         //check = 0;
         fetch(API_URL).then((response) => response.json()).then((responseData) => {
             organizations = responseData;
+                
                 if(organizations != ''){
                     this.setState({check:'1'});
-                    this.onCheck (this.state.check,organizations[0].name);
+                    this.onCheck (this.state.check,organizations[0].name,organizations[0].id);
                     //alert('bla la bla');
                 }else{
                     this.setState({check:'0'});
@@ -101,7 +92,7 @@ module.exports = React.createClass({
 
     },
 
-    onCheck : function(lol,myName){ 
+    onCheck : function(lol,myName,myId){ 
         //alert(myName);
     	if(lol == '1'){
             //alert(this.state.nameIds[4]);
@@ -125,9 +116,9 @@ module.exports = React.createClass({
             this.props.navigator.push({
                     component: 'posts',
                     data: namesIds,
-                    data1: myName
+                    data1: myName,
+                    data2: myId
             });
-            
             }).done();
         }else{
             return this.setState({errorMassage: 'UserName or Password is Not valid\n                      Try Again.'});
