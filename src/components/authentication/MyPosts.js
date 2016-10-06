@@ -57,24 +57,39 @@ module.exports = React.createClass({
               
     },
      renderRow: function(rowData) {
+
         return (
+
             <TouchableOpacity >
                     <View style = {styles.rowContainer1}>
                         <Text  style={styles.section}>{rowData.title}</Text>
                         <Text  style={styles.textContainer}>{rowData.body}</Text>
+                        <Button text={'Comments'} onPress = {() => this.onSignPress(this.props.data1, rowData.title, rowData.body, rowData.id, this.props.data1, this.props.data)}/>
+                        <Text style = {styles.rowLine}>{ '_____________________________________________'} </Text>
                      </View>
                 </TouchableOpacity>
         ); /////
                        
     },
+     onSignPress: function(rowData,rowData1,rowData2,rowData3,myName,myId) {
+        this.props.navigator.push({
+            component: 'details',
+            data: rowData,
+            data1: rowData1,
+            data2: rowData2,
+            data3: rowData3,
+            data4: myName,
+            data5: myId
+        }); 
+        
+
+    },
 
     render: function() {
-        //alert(this.props.data3);
         return (
             
             <View style = {styles.container}>
-
-                <Button text={'Your Posts'}/>
+                <Text style = {styles.textContainer1} >{'Your Posts...'}</Text>
             <View style={styles.container}>
                 <ListView
                     dataSource = {this.state.dataSource}
@@ -107,6 +122,17 @@ var styles = StyleSheet.create({
         padding: 10,
         backgroundColor: 'white'
     },
+     textContainer1: {
+    padding:5,
+    fontSize:20,
+    marginBottom:10,
+    color: '#2196F3'
+  },
+    rowContainer1: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: 8
+  },
   section: { 
         backgroundColor: '#2196F3',
     },

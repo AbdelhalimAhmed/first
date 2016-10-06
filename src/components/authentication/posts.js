@@ -159,7 +159,7 @@ module.exports = React.createClass({
     },
 
     NavigationView: function(myName, myId){
-       return (<DrawerView text={'Welcome ' + myName} id={myId} navigator={this.props.navigator}/>);
+       return (<DrawerView text={'Welcome ' + myName} Name={myName} id={myId} navigator={this.props.navigator}/>);
     },///
 
     onOpen: function(){
@@ -175,7 +175,10 @@ module.exports = React.createClass({
         return (
             
                     <View style = {styles.rowContainer1}>
-                        <Text  style={styles.section}>{this.state.nameView[test]}</Text>
+                        <View style={styles.section}>
+                            <Text >{this.state.nameView[test]}</Text>
+                        </View>
+                        
                         <Text  style={styles.textContainer}>{rowData.title}</Text>
                         <Button text={'Comments'} onPress = {() => this.onSignPress(names, rowData.title, rowData.body, rowData.id, this.props.data1, this.props.data2)}/>
                         <Text style = {styles.rowLine}>{ '_____________________________________________'} </Text>

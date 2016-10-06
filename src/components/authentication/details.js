@@ -104,9 +104,9 @@ module.exports = React.createClass({
                     <Text >{this.props.data}</Text>
                 </View>
                 <Text style = {styles.textContainer} >{this.props.data1}</Text>
-                <Text style = {styles.textContainer1}>{this.props.data2}</Text>
+                <Text style = {styles.textContainer}>{this.props.data2}</Text>
                  
-                <Button text={'the comments>'}/>
+                <Text style = {styles.textContainer1} >{'comments...'}</Text>
             <View style={styles.container}>
                 <ListView
                     dataSource = {this.state.dataSource}
@@ -169,11 +169,13 @@ var styles = StyleSheet.create({
   textContainer: {
     padding:5,
     fontSize:15,
+    marginBottom:10
   },
   textContainer1: {
     padding:5,
-    fontSize:15,
-    marginBottom:10
+    fontSize:20,
+    marginBottom:10,
+    color: '#2196F3'
   },
     activityIndicator: {
         alignItems: 'center',
